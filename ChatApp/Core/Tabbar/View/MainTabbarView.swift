@@ -65,9 +65,6 @@ struct MainTabbarView: View {
         .edgesIgnoringSafeArea(.bottom)
     }
 }
-
-
-
 struct CustomTabBar: View {
     @Binding var selectedTab: Int
     let tabs: [(title: String, icon: String)]

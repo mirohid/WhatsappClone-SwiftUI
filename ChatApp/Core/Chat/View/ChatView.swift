@@ -16,7 +16,23 @@ struct ChatView: View {
         NavigationStack{
             VStack{
                 ScrollView{
-                    
+                    VStack{
+                        ForEach(0..<1){ _ in
+                            Section{
+                                ForEach(0..<3){ _ in
+                                    ChatMessageCell()
+                                }
+                            } header:{
+                                Capsule()
+                                    .fill(Color(.systemGray5))
+                                    .frame(width: 120, height: 44)
+                                    .overlay {
+                                        Text("Today")
+                                    }
+                            }
+                        }
+                    }
+                                    
                 }
                 Spacer()
                 HStack{

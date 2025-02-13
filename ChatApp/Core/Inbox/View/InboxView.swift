@@ -40,7 +40,7 @@ struct InboxView: View {
                             .overlay {
                                 Image(systemName: "plus.bubble.fill")
                                     .tint(.white)
-                            }.padding()
+                            }.padding(.bottom, 50)
                     }.fullScreenCover(isPresented: $viewModel.ShowNewmessage) {
                         NewMessageView()
                     }
