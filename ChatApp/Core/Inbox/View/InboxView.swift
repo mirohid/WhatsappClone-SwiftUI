@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct InboxView: View {
+    @StateObject private var viewModel = InboxViewModel()
+    @Binding var isTabBarHidden: Bool
     var body: some View {
         NavigationStack{
             GeometryReader { proxy in
@@ -15,22 +17,32 @@ struct InboxView: View {
                     List{
                         
                         ForEach(0..<10){ _ in
-                            InboxRowView(width: proxy.size.width)
+                            NavigationLink {
+                                ChatView(isTabBarHidden: $isTabBarHidden)
+                                    .onAppear{ isTabBarHidden = true}
+                                    .onDisappear{isTabBarHidden = false}
+                                    .navigationBarBackButtonHidden(true)
+                                    .toolbar(.hidden, for: .tabBar) // Hide the tab bar
+                            } label: {
+                                InboxRowView(width: proxy.size.width)
+                            }
                         }
                     }.listStyle(PlainListStyle())
                     
                     Button {
-                        //
+                        viewModel.ShowNewmessage.toggle()
                     } label: {
                         
                         RoundedRectangle(cornerRadius: 10)
-                            .fill(Color(.darkGray))
+                            .fill(Color(.green))
                             .frame(width: 50, height: 50)
                             .padding()
                             .overlay {
                                 Image(systemName: "plus.bubble.fill")
                                     .tint(.white)
-                            }
+                            }.padding()
+                    }.fullScreenCover(isPresented: $viewModel.ShowNewmessage) {
+                        NewMessageView()
                     }
                     
                 }.toolbar {
@@ -56,5 +68,5 @@ struct InboxView: View {
 }
 
 #Preview {
-    InboxView()
+    InboxView(isTabBarHidden: .constant(false))
 }

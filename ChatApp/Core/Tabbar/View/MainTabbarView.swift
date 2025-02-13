@@ -1,7 +1,39 @@
+
+
+//import SwiftUI
+//
+//struct MainTabbarView: View {
+//    @State private var selectedTab: Int = 0
+//    @State private var isTabBarHidden = false  // Track tab bar visibility
+//    
+//    let tabs = [
+//        (title: "Inbox", icon: "bubble.fill"),
+//        (title: "Updates", icon: "dial.low"),
+//        (title: "Community", icon: "person.3.fill"),
+//        (title: "Calls", icon: "phone.fill"),
+//        (title: "Settings", icon: "gear")
+//    ]
+//    
+//    var body: some View {
+//        VStack(spacing: -40){
+//            TabView(selection: $selectedTab) {
+//                InboxView().tag(0)
+//                Text("Updates").tag(1)
+//                Text("Community").tag(2)
+//                Text("Calls").tag(3)
+//                Text("Settings").tag(4)
+//            }
+//            CustomTabBar(selectedTab: $selectedTab, tabs: tabs)
+//        }
+//        .edgesIgnoringSafeArea(.bottom)
+//    }
+//}
+
 import SwiftUI
 
 struct MainTabbarView: View {
     @State private var selectedTab: Int = 0
+    @State private var isTabBarHidden = false  // Track tab bar visibility
     
     let tabs = [
         (title: "Inbox", icon: "bubble.fill"),
@@ -12,19 +44,29 @@ struct MainTabbarView: View {
     ]
     
     var body: some View {
-        VStack(spacing: -40){
-            TabView(selection: $selectedTab) {
-                InboxView().tag(0)
-                Text("Updates").tag(1)
-                Text("Community").tag(2)
-                Text("Calls").tag(3)
-                Text("Settings").tag(4)
+        ZStack(alignment: .bottom) {  // Align tab bar at the bottom
+            NavigationStack {
+                TabView(selection: $selectedTab) {
+                    InboxView(isTabBarHidden: $isTabBarHidden).tag(0)
+                    Text("Updates").tag(1)
+                    Text("Community").tag(2)
+                    Text("Calls").tag(3)
+                    Text("Settings").tag(4)
+                }
             }
-            CustomTabBar(selectedTab: $selectedTab, tabs: tabs)
+            
+            // Conditionally show the custom tab bar
+            if !isTabBarHidden {
+                CustomTabBar(selectedTab: $selectedTab, tabs: tabs)
+                    .transition(.move(edge: .bottom))  // Smooth animation
+                    .animation(.easeInOut(duration: 0.3), value: isTabBarHidden)
+            }
         }
         .edgesIgnoringSafeArea(.bottom)
     }
 }
+
+
 
 struct CustomTabBar: View {
     @Binding var selectedTab: Int
@@ -54,7 +96,7 @@ struct CustomTabBar: View {
         }
         .frame(height: 70)
         .background(.ultraThinMaterial)
-        .cornerRadius(40)
+        .cornerRadius(30)
         .padding(.horizontal, 16)
         .padding(.bottom,30)
         .shadow(radius: 5)
