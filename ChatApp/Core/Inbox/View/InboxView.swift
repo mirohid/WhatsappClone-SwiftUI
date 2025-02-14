@@ -67,6 +67,7 @@ struct InboxView: View {
     }
 }
 
+
 #Preview {
     InboxView(isTabBarHidden: .constant(false))
 }
