@@ -158,7 +158,7 @@ struct ChatView: View {
                             .scrollContentBackground(.hidden) // Removes background of TextEditor
                         
                         HStack {
-                            Image(systemName: "face.smiling.inverse")
+                            Image(systemName: "face.smiling")
                                 .foregroundStyle(.gray)
                                 .padding(.leading, 12)
 
